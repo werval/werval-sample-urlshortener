@@ -18,6 +18,9 @@ apply plugin: 'application'
 
 applicationName = 'url-shortener'
 mainClassName = 'org.qiweb.server.bootstrap.Main'
+startScripts {
+    defaultJvmOpts = [ "-server", "-Xmx16m" ]
+}
 
 dependencies {
 
