@@ -15,6 +15,10 @@ repositories {
 }
 
 apply plugin: 'java'
+
+apply plugin: 'idea'
+idea { module { downloadJavadoc = true; downloadSources = true } }
+
 apply plugin: 'qiweb'
 apply plugin: 'application'
 
