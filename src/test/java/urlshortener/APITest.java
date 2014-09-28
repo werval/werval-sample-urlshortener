@@ -36,7 +36,6 @@ public class APITest
     extends QiWebHttpTest
 {
     @Test
-    @SuppressWarnings( "unchecked" )
     public void testUrlShortenerAPI()
     {
         // Assert list is empty
