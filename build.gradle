@@ -1,6 +1,4 @@
 
-def qiwebVersion = '0'
-
 buildscript {
     repositories {
         maven { url qiwebLocalRepository }
