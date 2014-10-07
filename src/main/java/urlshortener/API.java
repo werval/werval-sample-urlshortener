@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2013 the original author or authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,6 @@ import static org.qiweb.api.mime.MimeTypesNames.APPLICATION_JSON;
  */
 public class API
 {
-
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private final ShortenerService shortener;
     private final String jsonMime;
@@ -125,5 +124,4 @@ public class API
         link.clicks += 1;
         return outcomes().seeOther( link.longUrl ).build();
     }
-
 }

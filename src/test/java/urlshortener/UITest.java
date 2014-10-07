@@ -15,8 +15,8 @@
  */
 package urlshortener;
 
-import com.google.common.base.Predicate;
 import org.fluentlenium.adapter.FluentTest;
+import org.fluentlenium.core.Fluent;
 import org.junit.Rule;
 import org.junit.Test;
 import org.qiweb.test.QiWebHttpRule;
@@ -69,14 +69,7 @@ public class UITest
         // Redirect
         String mainWindow = getDriver().getWindowHandle();
         click( findFirst( "#list-output div.panel-heading a" ) );
-        await().until( new Predicate<Object>()
-        {
-            @Override
-            public boolean apply( Object input )
-            {
-                return getDriver().getWindowHandles().size() == 2;
-            }
-        } );
+        await().until( (Fluent lenium) -> getDriver().getWindowHandles().size() == 2 );
         String popupWindow = null;
         for( String window : getDriver().getWindowHandles() )
         {
