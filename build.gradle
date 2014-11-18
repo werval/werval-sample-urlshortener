@@ -1,54 +1,29 @@
 
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 buildscript {
     repositories {
         maven { url qiwebLocalRepository }
         maven { url "https://repo.codeartisans.org/qiweb" }
-        mavenCentral()
     }
-    dependencies {
-        classpath "org.qiweb:org.qiweb.gradle:$qiwebVersion"
-    }
+    dependencies { classpath "org.qiweb:org.qiweb.gradle:$qiwebVersion" }
 }
-repositories {
-    maven { url qiwebLocalRepository }
-    maven { url "https://repo.codeartisans.org/qiweb" }
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
-apply plugin: 'java'
-
-apply plugin: 'idea'
-idea { module { downloadJavadoc = true; downloadSources = true } }
-
-apply plugin: 'qiweb'
-apply plugin: 'application'
-
-applicationName = 'url-shortener'
-mainClassName = 'org.qiweb.server.bootstrap.Main'
+apply plugin: 'qiweb-application'
 startScripts {
     defaultJvmOpts = [ "-server", "-Xmx16m" ]
 }
 
 dependencies {
-
-    compile "org.qiweb:org.qiweb.api:$qiwebVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:2.4.2"
     compile "com.fasterxml.jackson.core:jackson-annotations:2.4.2"
-
-    runtime "org.qiweb:org.qiweb.server.bootstrap:$qiwebVersion"
     runtime 'ch.qos.logback:logback-classic:1.1.2'
     runtime "org.webjars:bootstrap:3.0.3"
     runtime "org.webjars:jquery:2.1.0-2"
-
-    testCompile "org.qiweb:org.qiweb.test:$qiwebVersion"
     testCompile "com.jayway.restassured:rest-assured:2.3.3"
     testCompile "commons-logging:commons-logging:1.1.3"
     testCompile "org.fluentlenium:fluentlenium-festassert:0.10.2"
     testCompile "org.seleniumhq.selenium:selenium-java:2.43.1"
-
 }
-
-artifacts {
-    archives distZip
-}
-
