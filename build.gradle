@@ -4,8 +4,9 @@ apply plugin: 'eclipse'
 
 buildscript {
     repositories {
-        maven { url qiwebLocalRepository }
+        if( hasProperty( 'qiwebLocalRepository' ) ) maven { url qiwebLocalRepository }
         maven { url "https://repo.codeartisans.org/qiweb" }
+        jcenter()
     }
     dependencies { classpath "org.qiweb:org.qiweb.gradle:$qiwebVersion" }
 }
