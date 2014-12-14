@@ -19,11 +19,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Collection;
-import org.qiweb.api.outcomes.Outcome;
+import io.werval.api.outcomes.Outcome;
 
-import static org.qiweb.api.context.CurrentContext.application;
-import static org.qiweb.api.context.CurrentContext.outcomes;
-import static org.qiweb.api.mime.MimeTypesNames.APPLICATION_JSON;
+import static io.werval.api.context.CurrentContext.application;
+import static io.werval.api.context.CurrentContext.outcomes;
+import static io.werval.api.mime.MimeTypesNames.APPLICATION_JSON;
 
 /**
  * URL Shortener HTTP API.

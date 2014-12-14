@@ -1,4 +1,4 @@
-# URL Shortener - QiWeb Sample Application
+# URL Shortener - Werval Sample Application
 
 The URL Shortener sample implement an extremely simple HTTP API using GET methods only and outputing JSON documents.
 The shortened URLs are stored in-memory, not persisted.
@@ -24,7 +24,7 @@ There is even tests for the UI, launching a browser, clicking on things and asse
 Thoses tests are implemented using [FluentLenium](http://fluentlenium.org/) from
 [Mathilde Lemée](https://github.com/MathildeLemee) that provide a nice DSL on top of Selenium/WebDriver.
 
-Whatever would be your QiWeb usage, you are encouraged to read this sample code.
+Whatever would be your Werval usage, you are encouraged to read this sample code.
 
 To stage the application run:
 

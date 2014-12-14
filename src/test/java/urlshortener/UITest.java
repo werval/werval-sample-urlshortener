@@ -19,7 +19,7 @@ import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.Fluent;
 import org.junit.Rule;
 import org.junit.Test;
-import org.qiweb.test.QiWebHttpRule;
+import io.werval.test.WervalHttpRule;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -33,18 +33,18 @@ public class UITest
     extends FluentTest
 {
     @Rule
-    public QiWebHttpRule qiwebRule = new QiWebHttpRule();
+    public WervalHttpRule werval = new WervalHttpRule();
 
     @Test
     public void testUI()
     {
         // First load
-        goTo( qiwebRule.baseHttpUrl() + "/" );
-        assertThat( title(), equalTo( "URL Shortener - QiWeb Sample App" ) );
+        goTo( werval.baseHttpUrl() + "/" );
+        assertThat( title(), equalTo( "URL Shortener - Werval Sample App" ) );
         await().until( "#api-output pre" ).hasSize( 1 );
         assertThat( findFirst( "#api-output pre" ).getText(), equalTo( "[]" ) );
 
-        String url = qiwebRule.baseHttpUrl() + "/client/lib/webjars/bootstrap/3.0.3/css/bootstrap.min.css";
+        String url = werval.baseHttpUrl() + "/client/lib/webjars/bootstrap/3.0.3/css/bootstrap.min.css";
 
         // Shorten
         fill( "#input-shorten" ).with( url );

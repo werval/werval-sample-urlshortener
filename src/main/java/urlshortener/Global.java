@@ -15,13 +15,13 @@
  */
 package urlshortener;
 
-import org.qiweb.api.Application;
+import io.werval.api.Application;
 
 /**
  * Custom Global Object that instanciate the ShortenerService and set it as application metadata.
  */
 public class Global
-    extends org.qiweb.api.Global
+    extends io.werval.api.Global
 {
     @Override
     public void onActivate( Application application )
