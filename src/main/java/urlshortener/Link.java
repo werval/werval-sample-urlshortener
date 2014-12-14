@@ -17,7 +17,7 @@ package urlshortener;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import static org.qiweb.api.context.CurrentContext.reverseRoutes;
+import static io.werval.api.context.CurrentContext.reverseRoutes;
 
 /**
  * Link POJO, intended to be JSON serialized.

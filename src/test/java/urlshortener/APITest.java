@@ -16,24 +16,24 @@
 package urlshortener;
 
 import com.jayway.restassured.response.Response;
+import io.werval.test.WervalHttpTest;
 import java.util.Map;
 import org.junit.Test;
-import org.qiweb.test.QiWebHttpTest;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
+import static io.werval.api.mime.MimeTypesNames.TEXT_CSS;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.qiweb.api.mime.MimeTypesNames.TEXT_CSS;
 
 /**
  * Assert API behaviour.
  */
 public class APITest
-    extends QiWebHttpTest
+    extends WervalHttpTest
 {
     @Test
     public void testUrlShortenerAPI()
