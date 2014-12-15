@@ -5,7 +5,6 @@ apply plugin: 'eclipse'
 buildscript {
     repositories {
         if( project.hasProperty( 'wervalLocalRepository' ) ) maven { url project.wervalLocalRepository }
-        maven { url "https://repo.codeartisans.org/werval" }
         jcenter()
     }
     dependencies { classpath "io.werval:io.werval.gradle:$wervalVersion" }
