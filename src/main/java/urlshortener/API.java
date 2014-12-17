@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 the original author or authors
+ * Copyright (c) 2013-2014 the original author or authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,88 +15,76 @@
  */
 package urlshortener;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.werval.api.outcomes.Outcome;
+import io.werval.modules.json.JSON;
 import java.net.URL;
 import java.util.Collection;
-import io.werval.api.outcomes.Outcome;
 
 import static io.werval.api.context.CurrentContext.application;
 import static io.werval.api.context.CurrentContext.outcomes;
-import static io.werval.api.mime.MimeTypesNames.APPLICATION_JSON;
 
 /**
  * URL Shortener HTTP API.
  */
 public class API
 {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
     private final ShortenerService shortener;
-    private final String jsonMime;
+    private final JSON json;
 
     public API()
     {
         this.shortener = application().metaData().get( ShortenerService.class, "shortener" );
-        this.jsonMime = application().mimeTypes().withCharsetOfTextual( APPLICATION_JSON );
+        this.json = application().plugin( JSON.class );
     }
 
     /**
      * List shortened urls and their hash.
      *
      * @return  application/json array filled with Link objects.
-     * @throws JsonProcessingException when unable to serialize JSON response
      */
     public Outcome list()
-        throws JsonProcessingException
     {
-        Collection<Link> list = shortener.list();
-        byte[] json = MAPPER.writeValueAsBytes( list );
-        return outcomes().ok( json ).as( jsonMime ).build();
+        return outcomes().ok( json.toJSON( shortener.list() ) ).asJson().build();
     }
 
     /**
      * Shorten a URL.
      *
      * @param url Long URL
+     *
      * @return application/json Link object.
-     * @throws JsonProcessingException when unable to serialize JSON response
      */
     public Outcome shorten( URL url )
-        throws JsonProcessingException
     {
         Link link = shortener.shorten( url.toString().trim() );
-        String json = MAPPER.writeValueAsString( link );
-        return outcomes().ok( json ).as( jsonMime ).build();
+        return outcomes().ok( json.toJSON( link ) ).asJson().build();
     }
 
     /**
      * Expand a hash to its corresponding long URL.
      *
      * @param hash Hash
+     *
      * @return application/json Link object.
-     * @throws JsonProcessingException when unable to serialize JSON response
      */
     public Outcome expand( String hash )
-        throws JsonProcessingException
     {
         Link link = shortener.link( hash.trim() );
         if( link == null )
         {
             return outcomes().notFound().build();
         }
-        byte[] json = MAPPER.writeValueAsBytes( link );
-        return outcomes().ok( json ).as( jsonMime ).build();
+        return outcomes().ok( json.toJSON( link ) ).asJson().build();
     }
 
     /**
      * Lookup existing shortened URLs from long URL.
      *
      * @param url Long URL
+     *
      * @return application/json array filled with Link object.
-     * @throws JsonProcessingException when unable to serialize JSON response
      */
     public Outcome lookup( URL url )
-        throws JsonProcessingException
     {
         String urlString = url.toString().trim();
         Collection<Link> list = shortener.lookup( urlString );
@@ -104,14 +92,14 @@ public class API
         {
             return outcomes().notFound().build();
         }
-        byte[] json = MAPPER.writeValueAsBytes( list );
-        return outcomes().ok( json ).as( jsonMime ).build();
+        return outcomes().ok( json.toJSON( list ) ).asJson().build();
     }
 
     /**
      * Redirect to long URL from hash.
      *
      * @param hash Hash
+     *
      * @return 303 Redirection to long URL
      */
     public Outcome redirect( String hash )

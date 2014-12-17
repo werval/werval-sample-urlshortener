@@ -4,9 +4,16 @@ The URL Shortener sample implement an extremely simple HTTP API using GET method
 The shortened URLs are stored in-memory, not persisted.
 They do not survive an application restart.
 
-A proof of concept client UI implemented with [Twitter Bootstrap](http://getbootstrap.com/) and
-[JQuery](http://jquery.com/) allow to play with the API.
-It shows the list of shortened URLs and dump all JSON returned by the HTTP API.
+URL Shortener is implemented using the [Hashids](http://hashids.org/) implementation included in werval.
+
+There is no user interfaces.
+You'll find bellow the various [httpie](http://httpie.org) commands you can use to use the HTTP API.
+
+- List all shortened urls: `http http://localhost:23023/api/list`
+- Shorten a given url: `http "http://localhost:23023/api/shorten?url=http://example.com/"`
+- Expand a url given its hash: `http "http://localhost:23023/api/expand?hash=9W6k"`
+- Lookup existing short url for a given one: `http "http://localhost:23023/api/lookup?url=http://example.com/"`
+- Open shortened url, get redirection: `http://localhost:23023/9W6k`
 
 This is the simplest sample and it is intended to be so.
 
@@ -20,26 +27,14 @@ Even if this sample is damn simple, it has unit tests covering the whole HTTP AP
 They are implemented using [rest-assured](https://code.google.com/p/rest-assured/) from [Jayway](http://www.jayway.com/)
 making them short and expressive.
 
-There is even tests for the UI, launching a browser, clicking on things and asserting that the UI behave well.
-Thoses tests are implemented using [FluentLenium](http://fluentlenium.org/) from
-[Mathilde Lemée](https://github.com/MathildeLemee) that provide a nice DSL on top of Selenium/WebDriver.
-
 Whatever would be your Werval usage, you are encouraged to read this sample code.
 
-To stage the application run:
+To run in development mode: `gradle devshell`
 
-    gradle installApp
+To run in production mode: `gradle start`
 
-To run from the staged application run:
+To run tests: `gradle check`
 
-    ./build/install/url-shortener/bin/url-shortener
+To build a production distribution: `gradle distZip`
 
-To build a standalone distribution of the application run:
-
-    gradle distZip
-
-The distribution can be located at `build/distributions/url-shortener-0.zip`.
-
-To run the whole test suite run:
-
-    gradle test
+To see all available tasks: `gradle tasks`
