@@ -6,7 +6,8 @@ They do not survive an application restart.
 
 URL Shortener is implemented using the [Hashids](http://hashids.org/) implementation included in werval.
 
-There is no user interfaces.
+A simple page served at `/` allow you to play with the API using HTML forms.
+
 You'll find bellow the various [httpie](http://httpie.org) commands you can use to use the HTTP API.
 
 - List all shortened urls: `http http://localhost:23023/api/list`
