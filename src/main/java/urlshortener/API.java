@@ -107,7 +107,7 @@ public class API
         Link link = shortener.link( hash.trim() );
         if( link == null )
         {
-            return outcomes().notFound().build();
+            return outcomes().notFound().withBody( "404 Not found" ).build();
         }
         link.clicks += 1;
         return outcomes().seeOther( link.longUrl ).build();
