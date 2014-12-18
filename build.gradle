@@ -11,6 +11,8 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'io.werval.application'
 
+applicationName = 'url-shortener'
+
 dependencies {
 
     compile werval.module( 'json' )
