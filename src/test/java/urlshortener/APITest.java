@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 the original author or authors
+ * Copyright (c) 2013-2014 the original author or authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,13 @@
  */
 package urlshortener;
 
-import com.jayway.restassured.response.Response;
-import io.werval.test.WervalHttpTest;
+import io.werval.test.WervalHttpRule;
 import java.util.Map;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
-import static io.werval.api.mime.MimeTypesNames.TEXT_CSS;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -33,8 +32,10 @@ import static org.junit.Assert.assertThat;
  * Assert API behaviour.
  */
 public class APITest
-    extends WervalHttpTest
 {
+    @ClassRule
+    public static final WervalHttpRule werval = new WervalHttpRule();
+
     @Test
     public void testUrlShortenerAPI()
     {
@@ -45,19 +46,19 @@ public class APITest
             when().
             get( "/api/list" );
 
-        String longUrl = baseHttpUrl() + "/client/lib/webjars/bootstrap/3.0.3/css/bootstrap.min.css";
+        String longUrl = "http://example.com/";
 
         // Assert can shorten URL
-        Response response = given().
+        Map<String, String> data = given().
             queryParam( "url", longUrl ).
             expect().
             statusCode( 200 ).
             body( "hash", notNullValue() ).
             body( "short_url", startsWith( "http://" ) ).
             when().
-            get( "/api/shorten" );
+            get( "/api/shorten" ).
+            as( Map.class );
 
-        Map<String, String> data = response.as( Map.class );
         String hash = data.get( "hash" );
         String shortUrl = data.get( "short_url" );
 
@@ -70,15 +71,16 @@ public class APITest
             get( "/api/list" );
 
         // Assert expand to correct URL
-        response = given().
+        data = given().
             queryParam( "hash", hash ).
             expect().
             statusCode( 200 ).
             body( "hash", equalTo( hash ) ).
             body( "long_url", startsWith( "http://" ) ).
             when().
-            get( "/api/expand" );
-        data = response.as( Map.class );
+            get( "/api/expand" ).
+            as( Map.class );
+
         assertThat( data.get( "long_url" ), equalTo( longUrl ) );
 
         // Assert lookup form long URL
@@ -94,8 +96,6 @@ public class APITest
         // Assert redirection works
         expect().
             statusCode( 200 ).
-            contentType( TEXT_CSS ).
-            body( containsString( "Bootstrap" ) ).
             when().
             get( shortUrl );
     }

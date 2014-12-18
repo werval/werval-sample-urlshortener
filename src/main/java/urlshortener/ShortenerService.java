@@ -15,23 +15,23 @@
  */
 package urlshortener;
 
+import io.werval.util.Hashids;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * URL Shortener Service.
  */
 public final class ShortenerService
 {
-    private static final int LENGTH = 4;
-    private static final char[] CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    private final Map<String, Link> shortened = new HashMap<>();
-    private final Random rng = new Random();
+    private final Map<String, Link> shortened = new ConcurrentHashMap<>();
+    private final Hashids hashids = new Hashids( "some salt", 4 );
+    private final AtomicLong counter = new AtomicLong();
 
     public Collection<Link> list()
     {
@@ -45,7 +45,8 @@ public final class ShortenerService
 
     public Link shorten( String longUrl )
     {
-        Link link = Link.newInstance( generateNewHash(), longUrl );
+        String hash = hashids.encode( counter.getAndIncrement() );
+        Link link = Link.newInstance( hash, longUrl );
         shortened.put( link.hash, link );
         return link;
     }
@@ -62,22 +63,5 @@ public final class ShortenerService
             }
         }
         return list;
-    }
-
-    private String generateNewHash()
-    {
-        while( true )
-        {
-            StringBuilder sb = new StringBuilder();
-            for( int idx = 0; idx < LENGTH; idx++ )
-            {
-                sb.append( CHARS[rng.nextInt( CHARS.length )] );
-            }
-            String hash = sb.toString();
-            if( !shortened.containsKey( hash ) )
-            {
-                return hash;
-            }
-        }
     }
 }
