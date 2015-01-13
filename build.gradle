@@ -1,15 +1,9 @@
 
-buildscript {
-    repositories {
-        if( project.hasProperty( 'wervalLocalRepository' ) ) maven { url project.wervalLocalRepository }
-        jcenter()
-    }
-    dependencies { classpath "io.werval:io.werval.gradle:$wervalVersion" }
+plugins {
+    id 'idea'
+    id 'eclipse'
+    id 'io.werval.application' version '0.6.0'
 }
-
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'io.werval.application'
 
 applicationName = 'url-shortener'
 
