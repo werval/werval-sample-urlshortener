@@ -45,7 +45,7 @@ public final class ShortenerService
 
     public Link shorten( String longUrl )
     {
-        String hash = hashids.encode( counter.getAndIncrement() );
+        String hash = hashids.encodeToString( counter.getAndIncrement() );
         Link link = Link.newInstance( hash, longUrl );
         shortened.put( link.hash, link );
         return link;
