@@ -2,7 +2,7 @@
 plugins {
     id 'idea'
     id 'eclipse'
-    id 'io.werval.application' version '0.7.4'
+    id 'io.werval.application' version '0.7.5'
 }
 
 applicationName = 'url-shortener'
@@ -13,7 +13,7 @@ dependencies {
     
     runtime 'org.slf4j:slf4j-simple:1.7.12'
 
-    testCompile "com.jayway.restassured:rest-assured:2.4.0"
+    testCompile "com.jayway.restassured:rest-assured:2.5.0"
 }
 
 startScripts.defaultJvmOpts = [ "-server", "-Xmx16m" ]
